@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // untuk post blog
-        PostModel::factory()->count(10)->create();
+        PostModel::factory()->count(3)->create();
     }
 }

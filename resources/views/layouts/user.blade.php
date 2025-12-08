@@ -24,7 +24,7 @@
 
 <body class="h-full">
     <div class="min-h-full">
-        {{-- Navbar guest --}}
+        {{-- Navbar user --}}
         <x-navbar.user />
 
         {{-- Header component (kalau kamu punya x-header sendiri) --}}
@@ -38,6 +38,41 @@
             </div>
         </main>
     </div>
+
+    {{-- Logout form (POST) --}}
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+        @csrf
+    </form>
+
+    {{-- SweetAlert2 untuk konfirmasi logout --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnLogout = document.getElementById('btn-logout');
+
+            if (btnLogout) {
+                btnLogout.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: 'Yakin ingin keluar?',
+                        text: 'Anda akan logout dari aplikasi.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, logout',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true,
+                        confirmButtonColor: '#ef4444', // merah (Tailwind red-500)
+                        cancelButtonColor: '#6b7280', // gray-500
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('logout-form').submit();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 </body>

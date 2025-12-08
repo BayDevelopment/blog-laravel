@@ -13,12 +13,15 @@ use App\Http\Controllers\AdminDashboardController;
 //     return redirect('/auth/login');
 // });
 
-Route::get('/', [UserController::class, 'index']);
-Route::get('/blog', [PostController::class, 'index']);
-Route::get('/blog/{slug}', [PostController::class, 'blogBySlug']);
+Route::middleware('prevent.auth')->group(function () {
+    // Hanya boleh diakses kalau BELUM login
+    Route::get('/', [UserController::class, 'index']);
 
+    // BLOG PUBLIC — hanya guest
+    Route::get('/blog', [PostController::class, 'index']);
+    Route::get('/blog/{slug}', [PostController::class, 'blogBySlug']);
 
-Route::middleware(['guest', 'redirect.role'])->group(function () {
+    // AUTH — hanya guest
     Route::get('/auth/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/auth/login', [AuthController::class, 'login']);
     Route::get('/auth/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -30,16 +33,16 @@ Route::post('/logout', function (Request $request) {
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect('/login');
+    return redirect('auth/login');
 })->name('logout');
 
-// Halaman yang butuh login + role user
+// Halaman yang butuh login + role USER
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])
         ->name('user.dashboard');
 });
 
-// Halaman yang butuh login + role admin
+// Halaman yang butuh login + role ADMIN
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');

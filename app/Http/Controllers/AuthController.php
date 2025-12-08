@@ -24,23 +24,23 @@ class AuthController extends Controller
     {
         // Validasi input
         $credentials = $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
+                'email'    => 'required|email',
+                'password' => 'required',
         ]);
 
-        // Coba login
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        $request->session()->regenerate();
 
-            $user = Auth::user();
+        $user = Auth::user();
 
-            // Redirect sesuai role user
-            return match ($user->role) {
-                'admin' => redirect()->intended('/admin/dashboard'),
-                'user'  => redirect()->intended('/user/dashboard'),
-                default => redirect('/'),
-            };
-        }
+        // Redirect sesuai role user + pesan sukses
+        return match ($user->role) {
+            'admin' => redirect()->intended('/admin/dashboard')->with('success', 'Login berhasil!'),
+            'user'  => redirect()->intended('/user/dashboard')->with('success', 'Login berhasil!'),
+            default => redirect('/')->with('success', 'Login berhasil!'),
+        };
+    }
+
 
         // Jika login gagal
         return back()->withErrors([

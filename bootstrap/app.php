@@ -11,10 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+
+        // ROUTE ALIAS
         $middleware->alias([
-        'redirect.role' => \App\Http\Middleware\RedirectIfAuthenticatedWithRole::class,
-        'role'          => \App\Http\Middleware\RoleMiddleware::class, 
-    ]);
+            'redirect.role' => \App\Http\Middleware\RedirectIfAuthenticatedWithRole::class,
+            'role'          => \App\Http\Middleware\RoleMiddleware::class,
+            'prevent.auth'  => \App\Http\Middleware\PreventIfAuthenticated::class, // opsional
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

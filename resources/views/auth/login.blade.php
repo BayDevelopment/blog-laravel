@@ -41,12 +41,17 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: @json(session('success')),
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end', // pojok kanan atas
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 2500,
+                    timerProgressBar: true,
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: @json(session('success'))
                 });
             });
         </script>

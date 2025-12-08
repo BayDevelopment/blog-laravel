@@ -13,6 +13,7 @@ class PostModel extends Model
     protected $table = 'posts'; // atau 'post' kalau itu nama tabelmu
 
     protected $fillable = [
+        'user_id',
         'category',
         'title',
         'author',

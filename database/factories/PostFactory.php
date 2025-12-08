@@ -21,18 +21,21 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $title = $this->faker->sentence(6);
+
         return [
+            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
             'title' => $title,
-            'author' => $this->faker->name() ,
-            'slug'  => Str::slug($title). '-'. Str::random(5),
-            'body' => $this->faker->paragraphs(5,true),
+            'author' => $this->faker->name(),
+            'slug'  => Str::slug($title) . '-' . Str::random(5),
+            'body' => $this->faker->paragraphs(5, true),
             'category' => $this->faker->randomElement([
                 'Teknologi',
                 'Pemrograman',
                 'Berita',
                 'Tips',
                 'Tutorial'
-            ])
+            ]),
         ];
+
     }
 }
