@@ -15,10 +15,10 @@ use App\Http\Controllers\AdminDashboardController;
 
 Route::middleware('prevent.auth')->group(function () {
     // Hanya boleh diakses kalau BELUM login
-    Route::get('/', [UserController::class, 'index']);
+    Route::get('/', [UserController::class, 'index'])->name('/');
 
     // BLOG PUBLIC — hanya guest
-    Route::get('/blog', [PostController::class, 'index']);
+    Route::get('/blog', [PostController::class, 'index'])->name('blog');
     Route::get('/blog/{slug}', [PostController::class, 'blogBySlug']);
 
     // AUTH — hanya guest
