@@ -13,7 +13,7 @@
                 </div>
                 <div class="text-slate-100">
                     <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Control Panel</p>
-                    <p class="text-lg font-semibold">Login Dashboard</p>
+                    <p class="text-lg font-semibold">Register Dashboard</p>
                 </div>
             </div>
 

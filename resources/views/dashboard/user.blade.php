@@ -75,7 +75,7 @@
 
                     {{-- Optional: tombol kecil ke halaman postingan --}}
                     <div class="mt-4">
-                        <a href="{{ url('user/semua-blog') ?? '#' }}"
+                        <a href="{{ url('user/postingan-saya') ?? '#' }}"
                             class="inline-flex items-center gap-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
                             Lihat semua postingan
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none">

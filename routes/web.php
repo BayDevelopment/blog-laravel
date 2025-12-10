@@ -1,13 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserDashboardController;
-use App\Http\Controllers\AdminDashboardController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return redirect('/auth/login');
@@ -40,6 +40,18 @@ Route::post('/logout', function (Request $request) {
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])
         ->name('user.dashboard');
+    Route::get('/user/postingan-saya', [UserDashboardController::class, 'page_postingan_allByUser'])
+        ->name('user.postingan-saya');
+    Route::get('/user/postingan-saya/create', [UserDashboardController::class, 'page_create_post'])
+        ->name('page.create');
+    Route::post('/user/postingan-saya/create', [UserDashboardController::class, 'create_post'])
+        ->name('aksi.create');
+    Route::get('/user/postingan-saya/show/(:slug)', [UserDashboardController::class, 'show_blog_BySlug/$id'])
+        ->name('posts.show');
+    Route::get('/user/postingan-saya/edit/(:slug)', [UserDashboardController::class, 'edit_blog_BySlug/$id'])
+        ->name('posts.edit');
+    Route::get('/user/postingan-saya/delete/(:slug)', [UserDashboardController::class, 'edit_blog_BySlug/$id'])
+        ->name('posts.destroy');
 });
 
 // Halaman yang butuh login + role ADMIN
@@ -47,5 +59,3 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
 });
-
- 

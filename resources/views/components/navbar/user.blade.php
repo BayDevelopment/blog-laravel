@@ -9,14 +9,8 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-                        <a href="{{ url('/') }}" aria-current="page"
-                            class="{{ request()->is('/') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium ">Dashboard</a>
-
-                        <a href="{{ url('/user/master-data') }}"
-                            class=" {{ request()->is('blog') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium">Master
-                            Data</a>
-                        <a href="{{ url('/pengaturan') }}"
-                            class=" {{ request()->is('blog') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium">Pengaturan</a>
+                        <a href="{{ url('/user/dashboard') }}" aria-current="page"
+                            class="{{ request()->is('user/dashboard') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium ">Dashboard</a>
 
                     </div>
                 </div>
