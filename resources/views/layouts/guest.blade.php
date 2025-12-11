@@ -37,6 +37,31 @@
                 @yield('content')
             </div>
         </main>
+        <footer class="mt-10 px-4 py-6 bg-slate-900/60 border-t border-slate-700/60 backdrop-blur-xl">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
+                {{-- Left Side: Copyright --}}
+                <div class="text-sm text-slate-400 text-center md:text-left">
+                    © {{ date('Y') }} <span class="text-cyan-400 font-semibold">Bayudev</span>.
+                    Semua hak dilindungi.
+                </div>
+
+                {{-- Right Side: Social Icons --}}
+                <div class="flex items-center gap-3">
+                    <a href="#" class="text-slate-400 hover:text-cyan-400 transition text-lg">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-cyan-400 transition text-lg">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-cyan-400 transition text-lg">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                </div>
+
+            </div>
+        </footer>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>

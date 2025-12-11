@@ -6,6 +6,7 @@ use App\Models\PostModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UserDashboardController extends Controller
 {
@@ -79,7 +80,7 @@ class UserDashboardController extends Controller
     public function create_post(Request $request)
     {
         $validated = $request->validate([
-            'category' => ['required', 'max:100'],   // langsung string
+            'category' => ['required', 'max:100', 'in:Pemrograman,Prestasi,Crypto'],
             'title' => ['required', 'max:255'],
             'slug' => ['nullable', 'max:255', 'unique:posts,slug'],
             'body' => ['required'],
@@ -112,7 +113,120 @@ class UserDashboardController extends Controller
         ]);
 
         return redirect()
-            ->route('aksi.create')
+            ->route('user.postingan-saya')
             ->with('success', 'Postingan berhasil dibuat.');
+    }
+
+    // show
+    public function show_blogBySlug($slug)
+    {
+        // Ambil post berdasarkan slug dan milik user yang sedang login
+        $post = PostModel::where('user_id', Auth::id())
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        $data = [
+            'title' => $post->title.' | Belajar Laravel',
+            'navlink' => 'Detail Blog',
+            'post' => $post,
+        ];
+
+        return view('dashboard.users.show', $data);
+    }
+
+    // edit
+    public function edit_postBySlug($slug)
+    {
+        // Ambil post milik user yang sedang login berdasarkan slug
+        $post = PostModel::where('user_id', Auth::id())
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Kategori statis
+        $categories = [
+            'Pemrograman',
+            'Prestasi',
+            'Crypto',
+        ];
+
+        return view('dashboard.users.edit-post', [
+            'title' => 'Edit Blog | Belajar Laravel',
+            'navlink' => 'Edit Blog',
+            'categories' => $categories,
+            'post' => $post,
+        ]);
+    }
+
+    public function aksi_update(Request $request, $slug)
+    {
+        // Cari post milik user yang sedang login berdasarkan slug
+        $post = PostModel::where('user_id', Auth::id())
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Validasi input
+        $validated = $request->validate([
+            'category' => ['required', 'max:100', 'in:Pemrograman,Prestasi,Crypto'],
+            'title' => ['required', 'max:255'],
+            'slug' => [
+                'nullable',
+                'max:255',
+                Rule::unique('posts', 'slug')->ignore($post->id),
+            ],
+            'body' => ['required'],
+        ]);
+
+        // user_id & author tetap diset dari Auth (optional, bisa dipertahankan)
+        $validated['user_id'] = Auth::id();
+        $validated['author'] = Auth::user()->name;
+
+        // Handle slug:
+        // - Jika input slug kosong → generate dari title
+        // - Jika slug diubah → pastikan unik
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['title']);
+        }
+
+        $originalSlug = $validated['slug'];
+        $counter = 1;
+
+        // Cek slug sudah dipakai user lain / post lain
+        while (
+            PostModel::where('slug', $validated['slug'])
+                ->where('id', '!=', $post->id)
+                ->exists()
+        ) {
+            $validated['slug'] = $originalSlug.'-'.$counter++;
+        }
+
+        // Update data
+        $post->update([
+            'user_id' => $validated['user_id'],
+            'category' => $validated['category'],
+            'title' => $validated['title'],
+            'author' => $validated['author'],
+            'slug' => $validated['slug'],
+            'body' => $validated['body'],
+        ]);
+
+        return redirect()
+            ->route('user.postingan-saya')
+            ->with('success', 'Postingan berhasil diperbarui.');
+    }
+
+    // delete blog by id
+    public function delete_blog($id)
+    {
+        // Cari post berdasarkan ID yang dimiliki user yang sedang login
+        $post = PostModel::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        // Hapus post
+        $post->delete();
+
+        return redirect()
+            ->route('user.postingan-saya')
+            ->with('success', 'Postingan berhasil dihapus.');
     }
 }

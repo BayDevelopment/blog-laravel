@@ -42,15 +42,17 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         ->name('user.dashboard');
     Route::get('/user/postingan-saya', [UserDashboardController::class, 'page_postingan_allByUser'])
         ->name('user.postingan-saya');
-    Route::get('/user/postingan-saya/create', [UserDashboardController::class, 'page_create_post'])
+    Route::post('/user/postingan-saya/create', [UserDashboardController::class, 'page_create_post'])
         ->name('page.create');
     Route::post('/user/postingan-saya/create', [UserDashboardController::class, 'create_post'])
         ->name('aksi.create');
-    Route::get('/user/postingan-saya/show/(:slug)', [UserDashboardController::class, 'show_blog_BySlug/$id'])
+    Route::get('/user/postingan-saya/show/{slug}', [UserDashboardController::class, 'show_blogBySlug'])
         ->name('posts.show');
-    Route::get('/user/postingan-saya/edit/(:slug)', [UserDashboardController::class, 'edit_blog_BySlug/$id'])
-        ->name('posts.edit');
-    Route::get('/user/postingan-saya/delete/(:slug)', [UserDashboardController::class, 'edit_blog_BySlug/$id'])
+    Route::get('/user/postingan-saya/{slug}/update', [UserDashboardController::class, 'edit_postBySlug'])
+        ->name('page.update');
+    Route::put('/user/postingan-saya/{slug}', [UserDashboardController::class, 'aksi_update'])
+        ->name('aksi.update');
+    Route::delete('/user/postingan-saya/delete/{id}', [UserDashboardController::class, 'delete_blog'])
         ->name('posts.destroy');
 });
 

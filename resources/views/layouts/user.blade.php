@@ -23,7 +23,7 @@
 </head>
 
 <body class="h-full">
-    <div class="min-h-full">
+    <div class="min-h-full ">
         {{-- Navbar user --}}
         <x-navbar.user />
 
@@ -37,6 +37,32 @@
                 @yield('content')
             </div>
         </main>
+        <footer class="mt-10 px-4 py-6 bg-slate-900/60 border-t border-slate-700/60 backdrop-blur-xl">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
+                {{-- Left Side: Copyright --}}
+                <div class="text-sm text-slate-400 text-center md:text-left">
+                    © {{ date('Y') }} <span class="text-cyan-400 font-semibold">Bayudev</span>.
+                    Semua hak dilindungi.
+                </div>
+
+                {{-- Right Side: Social Icons --}}
+                <div class="flex items-center gap-3">
+                    <a href="#" class="text-slate-400 hover:text-cyan-400 transition text-lg">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-cyan-400 transition text-lg">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-cyan-400 transition text-lg">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                </div>
+
+            </div>
+        </footer>
+
+
     </div>
 
     {{-- Logout form (POST) --}}
@@ -48,31 +74,35 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const btnLogout = document.getElementById('btn-logout');
+            const btnLogout = document.querySelectorAll('.btn-logout');
 
-            if (btnLogout) {
-                btnLogout.addEventListener('click', function(e) {
-                    e.preventDefault();
+            if (btnLogout.length > 0) {
+                btnLogout.forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
 
-                    Swal.fire({
-                        title: 'Yakin ingin keluar?',
-                        text: 'Anda akan logout dari aplikasi.',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Ya, logout',
-                        cancelButtonText: 'Batal',
-                        reverseButtons: true,
-                        confirmButtonColor: '#ef4444', // merah (Tailwind red-500)
-                        cancelButtonColor: '#6b7280', // gray-500
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById('logout-form').submit();
-                        }
+                        Swal.fire({
+                            title: 'Yakin ingin keluar?',
+                            text: 'Anda akan logout dari aplikasi.',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Ya, logout',
+                            cancelButtonText: 'Batal',
+                            reverseButtons: true,
+                            confirmButtonColor: '#ef4444',
+                            cancelButtonColor: '#6b7280',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById('logout-form').submit();
+                            }
+                        });
                     });
                 });
             }
         });
     </script>
+
+    @stack('scripts')
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 </body>

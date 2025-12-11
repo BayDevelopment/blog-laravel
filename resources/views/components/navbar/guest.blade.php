@@ -79,11 +79,16 @@
         <div class="border-t border-white/10 pt-4 pb-3">
             <div class="mt-3 space-y-1 px-2">
                 <a href="{{ route('login') }}"
-                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-white/5 hover:text-white">
+                    class="rounded-md px-3 py-2 text-sm font-medium 
+                     {{ request()->routeIs('login') ? 'text-white bg-indigo-600' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
                     Login
                 </a>
-                <a href="#"
-                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-white/5 hover:text-white">
+
+                <a href="{{ route('register') }}"
+                    class="rounded-md px-3 py-2 text-sm font-medium
+                    {{ request()->routeIs('register')
+                        ? 'text-white bg-indigo-600'
+                        : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">
                     Register
                 </a>
             </div>

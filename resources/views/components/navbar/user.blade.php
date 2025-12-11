@@ -44,10 +44,8 @@
                             <a href="#"
                                 class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Your
                                 profile</a>
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-gray-300 focus:bg-white/5 focus:outline-hidden">Settings</a>
                             <a href="#" id="btn-logout"
-                                class="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-md transition">
+                                class="btn-logout block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-md transition">
                                 Sign out
                             </a>
 
@@ -80,12 +78,6 @@
             <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
             <a href="{{ url('/') }}" aria-current="page"
                 class="{{ request()->is('/') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium ">Dashboard</a>
-
-            <a href="{{ url('/user/master-data') }}"
-                class=" {{ request()->is('blog') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium">Master
-                Data</a>
-            <a href="{{ url('/pengaturan') }}"
-                class=" {{ request()->is('blog') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium">Pengaturan</a>
         </div>
         <div class="border-t border-white/10 pt-4 pb-3">
             <div class="flex items-center px-5">
@@ -113,10 +105,8 @@
                 <a href="#"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-white/5 hover:text-white">Your
                     profile</a>
-                <a href="#"
-                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-white/5 hover:text-white">Settings</a>
                 <a href="#" id="btn-logout"
-                    class="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-md transition">
+                    class="btn-logout block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-md transition">
                     Sign out
                 </a>
             </div>

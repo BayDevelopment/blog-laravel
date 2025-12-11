@@ -1,6 +1,25 @@
 @extends('layouts.user')
 
 @section('content')
+    @if (session('success'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true,
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: @json(session('success'))
+                });
+            });
+        </script>
+    @endif
     <div class="max-w-6xl mx-auto px-4 py-8">
         <div class="flex items-center justify-between gap-4 mb-6">
             <div class="flex items-center gap-3">
@@ -11,7 +30,7 @@
                 </a>
 
                 {{-- Tombol Tambah --}}
-                <a href="{{ route('page.create') }}"
+                <a href="{{ url('/user/postingan-saya/create') }}"
                     class="inline-flex items-center px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 shadow">
                     <span><i class="fa-solid fa-plus"></i></span> Tambah
                 </a>
@@ -130,26 +149,28 @@
                                 </td>
                                 <td class="px-4 py-3 text-sm text-gray-700 text-right">
                                     <div class="flex flex-nowrap space-x-2 justify-end">
-                                        <a href="{{ route('posts.show', $post->id) }}"
+                                        <a href="{{ route('posts.show', $post->slug) }}"
                                             class="inline-flex items-center rounded-md border border-gray-300 px-2.5 py-1 text-xs font-medium text-gray-700 bg-white hover:bg-gray-50">
                                             Lihat
                                         </a>
 
-                                        <a href="{{ route('posts.edit', $post->id) }}"
+                                        <a href="{{ route('page.update', $post->slug) }}"
                                             class="inline-flex items-center rounded-md border border-amber-300 px-2.5 py-1 text-xs font-medium text-amber-800 bg-amber-50 hover:bg-amber-100">
                                             Edit
                                         </a>
 
-                                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus postingan ini?')"
+                                        <form id="delete-form-{{ $post->id }}"
+                                            action="{{ route('posts.destroy', $post->id) }}" method="POST"
                                             class="inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit"
+
+                                            <button type="button" onclick="confirmBlogDelete({{ $post->id }})"
                                                 class="inline-flex items-center rounded-md border border-red-300 px-2.5 py-1 text-xs font-medium text-red-700 bg-red-50 hover:bg-red-100">
                                                 Hapus
                                             </button>
                                         </form>
+
                                     </div>
                                 </td>
 
@@ -166,3 +187,24 @@
         @endif
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        function confirmBlogDelete(id) {
+            Swal.fire({
+                title: 'Apakah kamu yakin?',
+                text: "Postingan yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e02424',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+    </script>
+@endpush
