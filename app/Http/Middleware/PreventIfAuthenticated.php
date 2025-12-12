@@ -16,7 +16,7 @@ class PreventIfAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-         // Jika sudah login
+        // Jika sudah login
         if (Auth::check()) {
             $role = Auth::user()->role;
 
@@ -25,8 +25,6 @@ class PreventIfAuthenticated
                 '/',                 // default
                 'auth/login',
                 'auth/register',
-                'blog',
-                'blog/*',
             ];
 
             // Jika user mencoba mengakses route tersebut
